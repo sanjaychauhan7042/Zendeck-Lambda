@@ -2,7 +2,7 @@ jobs:
   file-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout cod
         uses: actions/checkout@v3
 
       - name: Check for staged file deletions
