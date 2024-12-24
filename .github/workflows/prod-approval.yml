@@ -29,4 +29,4 @@ jobs:
         run: echo "Removing resource..."
 
     environment:
-      name: prod  # This links to the "Prod" environment
+      name: dev  # This links to the "Prod" environment
