@@ -1,0 +1,37 @@
+name: Dev Deployment Workflow
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Environment
+        run: echo "Preparing for deployment to dev environment"
+
+      - name: Add Resource
+        if: ${{ github.event.inputs.action == 'add' }}
+        run: echo "Adding resource to dev environment"
+
+      - name: Modify Resource
+        if: ${{ github.event.inputs.action == 'modify' }}
+        run: echo "Modifying resource in dev environment"
+
+      - name: Remove Resource
+        if: ${{ github.event.inputs.action == 'remove' }}
+        run: |
+          echo "Requesting approval for resource removal..."
+          echo "::group::Approval Required for Resource Removal"
+          echo "Please approve the resource removal from the dev environment."
+          echo "::endgroup::"
+          exit 1
+
+    environment:
+      name: dev  # This links to the "Dev" environment
