@@ -22,6 +22,14 @@ on:
       frontend-ip:
         description: 'Frontend IP Configuration Name'
         required: true
+      environment:
+        description: 'Environment (dev, prod, UAT)'
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+          - UAT
 
 jobs:
   deploy-lb:
@@ -35,13 +43,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Setup Environment
+        run: echo "Deploying to ${{ inputs.environment }} environment"
+
       - name: Deploy Load Balancer
         if: inputs.action == 'create'
         run: |
           az network lb create --resource-group ${{ inputs.resource-group }} \
             --name ${{ inputs.lb-name }} --location "${{ inputs.location }}" \
             --frontend-ip-name ${{ inputs.frontend-ip }}
-
       - name: Remove Load Balancer
         if: inputs.action == 'remove'
         run: |
