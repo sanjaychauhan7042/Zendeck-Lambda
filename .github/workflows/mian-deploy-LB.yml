@@ -1,4 +1,4 @@
-name: 'Main Deploy Load Balancer'
+name: 'Main Deploy LB'
 run-name: '${{github.actor}} - Deploy or Remove Load Balancer'
 
 on:
