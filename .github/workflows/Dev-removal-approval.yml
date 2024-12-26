@@ -3,7 +3,7 @@ name: Dev Deployment Workflow
 on:
   push:
     branches:
-      - ACCTTEAM-2033
+      - main
 
 jobs:
   deploy:
