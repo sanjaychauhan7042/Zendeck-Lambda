@@ -3,11 +3,14 @@ name: Dev Deployment Workflow
 on:
   push:
     branches:
-      - dev
+      - ACCTTEAM-2033
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      name: dev  # This links to the "dev" environment
 
     steps:
       - name: Checkout code
@@ -17,21 +20,16 @@ jobs:
         run: echo "Preparing for deployment to dev environment"
 
       - name: Add Resource
-        if: ${{ github.event.inputs.action == 'add' }}
+        if: ${{ github.event.inputs.action == 'Add' }}
         run: echo "Adding resource to dev environment"
 
       - name: Modify Resource
-        if: ${{ github.event.inputs.action == 'modify' }}
+        if: ${{ github.event.inputs.action == 'Modify' }}
         run: echo "Modifying resource in dev environment"
 
       - name: Remove Resource
-        if: ${{ github.event.inputs.action == 'remove' }}
+        if: ${{ github.event.inputs.action == 'Remove' }}
         run: |
           echo "Requesting approval for resource removal..."
-          echo "::group::Approval Required for Resource Removal"
-          echo "Please approve the resource removal from the dev environment."
-          echo "::endgroup::"
-          exit 1
+          exit 1  # Ensure the workflow exits and waits for approval
 
-    environment:
-      name: dev  # This links to the "Dev" environment
