@@ -23,9 +23,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    environment:
-      name: ${{ github.event.inputs.environment | toLowerCase }} # Dynamically set the environment to 'prod' or 'uat'
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
