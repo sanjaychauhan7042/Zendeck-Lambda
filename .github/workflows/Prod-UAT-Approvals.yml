@@ -1,0 +1,43 @@
+name: Deployment Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment (Prod or UAT)'
+        required: true
+        type: choice
+        options:
+          - Prod
+          - UAT
+      action:
+        description: 'Action to perform (Add, Modify, Remove)'
+        required: true
+        type: choice
+        options:
+          - Add
+          - Modify
+          - Remove
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Environment
+        run: echo "Preparing for deployment to ${{ github.event.inputs.environment }}"
+
+      - name: Add Resource
+        if: ${{ github.event.inputs.action == 'Add' }}
+        run: echo "Adding resources to ${{ github.event.inputs.environment }}"
+
+      - name: Modify Resource
+        if: ${{ github.event.inputs.action == 'Modify' }}
+        run: echo "Modifying resources in ${{ github.event.inputs.environment }}"
+
+      - name: Remove Resource
+        if: ${{ github.event.inputs.action == 'Remove' }}
+        run: echo "Removing resources from ${{ github.event.inputs.environment }}"
