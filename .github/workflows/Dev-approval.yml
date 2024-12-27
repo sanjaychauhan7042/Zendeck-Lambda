@@ -7,7 +7,11 @@ on:
         description: "Action to perform (Add, Modify, Remove)"
         type: choice
         required: true
-        default: "Add"
+        options: 
+          - Add 
+          - Modify
+          - Remove
+        default: "Remove"
 
 jobs:
   main:
