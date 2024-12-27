@@ -5,6 +5,7 @@ on:
     inputs:
       action:
         description: "Action to perform (Add, Modify, Remove)"
+        type: choice
         required: true
         default: "Add"
 
