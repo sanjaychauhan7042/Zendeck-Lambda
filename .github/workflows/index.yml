@@ -1,0 +1,29 @@
+name: Example Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: https://github.com/<your-repo>/settings/environments
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Environment
+        run: echo "Preparing for deployment to production environment"
+
+      - name: Wait for approval
+        run: echo "Waiting for manual approval..."
+        env: prod
+
+      - name: Deploy to production
+        run: echo "Deploying to production environment"
+        if: ${{ github.event.inputs.action != 'Remove' }}
