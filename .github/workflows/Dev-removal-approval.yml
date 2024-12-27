@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: dev 
+      name: dev
 
     steps:
       - name: Checkout code
@@ -27,8 +27,6 @@ jobs:
         if: ${{ github.event.inputs.action == 'Modify' }}
         run: echo "Modifying resource in dev environment"
 
-        - name: Remove Resource
+      - name: Remove Resource
         if: ${{ github.event.inputs.action == 'Remove' }}
-        environment: dev
-        run: echo "Approval required: Removal process initiated."
-
+        run: echo "Removing resource from dev environment"
