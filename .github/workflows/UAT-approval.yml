@@ -1,4 +1,4 @@
-name: Deployment Workflow
+name: Dev Deployment Workflow
 
 on:
   push:
@@ -11,22 +11,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v1
 
       - name: Setup Environment
         run: echo "Preparing for deployment"
-
-      - name: Add Resource
-        if: github.event.inputs.action == 'add'
-        run: echo "Adding resource..."
-
-      - name: Modify Resource
-        if: github.event.inputs.action == 'modify'
-        run: echo "Modifying resource..."
 
       - name: Remove Resource
         if: github.event.inputs.action == 'remove'
         run: echo "Removing resource..."
 
     environment:
-      name: UAT  # This links to the "Prod" environment
+      name: Dev  
