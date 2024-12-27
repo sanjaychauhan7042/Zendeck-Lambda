@@ -1,24 +1,43 @@
 name: Dev Deployment Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # Allow manual triggers with inputs
+    inputs:
+      action:
+        description: "Action to perform (Add, Modify, Remove)"
+        required: true
+        default: "Add"
 
 jobs:
-  deploy:
+  main:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Setup Environment
-        run: echo "Preparing for deployment"
+        run: echo "Preparing for deployment to dev environment"
+
+      - name: Add Resource
+        if: ${{ github.event.inputs.action == 'Add' }}
+        run: echo "Adding resource to dev environment"
+
+      - name: Modify Resource
+        if: ${{ github.event.inputs.action == 'Modify' }}
+        run: echo "Modifying resource in dev environment"
+
+  removal:
+    runs-on: ubuntu-latest
+    needs: main  # Wait for the main job to complete
+
+    if: ${{ github.event.inputs.action == 'Remove' }}  # Trigger only for removal
+
+    environment: dev  # Enforce approval for this job only
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Remove Resource
-        if: github.event.inputs.action == 'remove'
-        run: echo "Removing resource..."
-
-    environment:
-      name: Dev  
+        run: echo "Approval required Removal process initiated."
