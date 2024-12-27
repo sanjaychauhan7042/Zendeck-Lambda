@@ -1,4 +1,4 @@
-name: Example Workflow
+name: Dev Deployment Workflow
 
 on:
   push:
@@ -9,33 +9,32 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    environment: dev  
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v1
 
       - name: Setup Environment
-        run: echo "Preparing for deployment to dev environment"
+        run: echo "Preparing for deployment"
 
-      - name: Deploy to dev
-        if: ${{ github.event.inputs.action != 'Remove' }}
-        run: echo "Deploying to dev environment"
+      - name: Add Resource
+        if: github.event.inputs.action == 'add'
+        run: echo "Adding resource..."
+
+      - name: Modify Resource
+        if: github.event.inputs.action == 'modify'
+        run: echo "Modifying resource..."
 
   removal:
     runs-on: ubuntu-latest
     needs: deploy
 
-    if: ${{ github.event.inputs.action == 'Remove' }}
-
-    environment: dev  # Requires approval for this job
+    if: github.event.inputs.action == 'remove'
+    
+    environment: dev-approval  # Requires approval for this job
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Notify Removal Process
-        run: echo "Approval required Removal process initiated."
+        uses: actions/checkout@v1
 
       - name: Remove Resource
-        run: echo "Removing resource from dev environment"
+        run: echo "Removing resource..."
