@@ -1,0 +1,24 @@
+name: Dev Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Setup Environment
+        run: echo "Preparing for deployment"
+
+      - name: Remove Resource
+        if: github.event.inputs.action == 'remove'
+        run: echo "Removing resource..."
+
+    environment:
+      name: Dev  
