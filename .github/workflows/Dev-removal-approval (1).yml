@@ -3,7 +3,7 @@ name: Dev Deployment Workflow
 on:
   push:
     branches:
-      - ACCTTEAM-2033
+      - main
 
 jobs:
   deploy:
@@ -11,6 +11,9 @@ jobs:
 
     environment:
       name: dev  # This links to the "dev" environment
+      reviewers:
+        - sanjaychauhan7042  # Replace with actual GitHub usernames
+        - reviewer2  # Replace with actual GitHub usernames
 
     steps:
       - name: Checkout code
@@ -29,7 +32,4 @@ jobs:
 
       - name: Remove Resource
         if: ${{ github.event.inputs.action == 'Remove' }}
-        run: |
-          echo "Requesting approval for resource removal..."
-          exit 1  # Ensure the workflow exits and waits for approval
-
+        run: echo "Removing resource from dev environment"
