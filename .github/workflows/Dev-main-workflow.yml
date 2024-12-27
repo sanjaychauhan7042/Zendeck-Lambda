@@ -1,9 +1,9 @@
-name: Main Dev Deployment Workflow
+name: Dev main Deployment Workflow
 
 on:
   push:
     branches:
-      - main
+      - ACCTTEAM-2033
 
 jobs:
   deploy:
@@ -29,3 +29,4 @@ jobs:
         run: |
           echo "Requesting approval for resource removal..."
           echo "status=pending" >> $GITHUB_ENV
+
