@@ -30,7 +30,7 @@ jobs:
 
     if: github.event.inputs.action == 'remove'
     
-    environment: dev-approval  # Requires approval for this job
+    environment: dev  # Requires approval for this job
 
     steps:
       - name: Checkout code
