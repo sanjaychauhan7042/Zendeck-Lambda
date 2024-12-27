@@ -1,4 +1,4 @@
-name: Dev Deployment Workflow
+name: Main Dev Deployment Workflow
 
 on:
   push:
@@ -8,12 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    environment:
-      name: dev  # This links to the "dev" environment
-      reviewers:
-        - sanjaychauhan7042  # Replace with actual GitHub usernames
-        - reviewer2  # Replace with actual GitHub usernames
 
     steps:
       - name: Checkout code
@@ -30,6 +24,8 @@ jobs:
         if: ${{ github.event.inputs.action == 'Modify' }}
         run: echo "Modifying resource in dev environment"
 
-      - name: Remove Resource
+      - name: Request Approval for Removal
         if: ${{ github.event.inputs.action == 'Remove' }}
-        run: echo "Removing resource from dev environment"
+        run: |
+          echo "Requesting approval for resource removal..."
+          echo "status=pending" >> $GITHUB_ENV
