@@ -1,0 +1,24 @@
+import json
+
+def lambda_handler(event, context):
+    customer_id = event.get('customer_id')
+    fixed_cover = 5000
+    used_cover = event.get('used_cover', 0)
+
+    response = {
+        'customer_id': customer_id,
+        'total_cover': f"${used_cover}/{fixed_cover}"
+    }
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response)
+    }
+
+# Event example for testing locally:
+if __name__ == "__main__":
+    event = {
+        'customer_id': '12345',
+        'used_cover': 2000
+    }
+    print(lambda_handler(event, None))
