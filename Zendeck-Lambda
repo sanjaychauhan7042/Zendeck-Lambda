@@ -1,24 +1,42 @@
 import json
+import boto3
+from decimal import Decimal
+
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('Claims')
 
 def lambda_handler(event, context):
     customer_id = event.get('customer_id')
-    fixed_cover = 5000
-    used_cover = event.get('used_cover', 0)
-
-    response = {
+    
+    if not customer_id:
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'message': 'customer_id is required'})
+        }
+    
+    response = table.get_item(Key={'customer_id': customer_id})
+    
+    if 'Item' not in response:
+        return {
+            'statusCode': 404,
+            'body': json.dumps({'message': 'Customer not found'})
+        }
+    
+    item = response['Item']
+    fixed_cover = item['fixed_cover']
+    used_cover = item['used_cover']
+    
+    result = {
         'customer_id': customer_id,
         'total_cover': f"${used_cover}/{fixed_cover}"
     }
 
     return {
         'statusCode': 200,
-        'body': json.dumps(response)
+        'body': json.dumps(result, default=decimal_default)
     }
 
-# Event example for testing locally:
-if __name__ == "__main__":
-    event = {
-        'customer_id': '12345',
-        'used_cover': 2000
-    }
-    print(lambda_handler(event, None))
+def decimal_default(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)
+    raise TypeError
